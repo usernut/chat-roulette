@@ -13,7 +13,7 @@ export class Command extends Base {
             const chatId = +ctx.message.text.split(' ')[1]
 
             if (!Number.isInteger(chatId)) {
-                return ctx.reply('А')
+                return ctx.reply(ctx.i18n.t('user_command_inctorrect_value'))
             }
 
             const user = await getUserWithRoleAndStats(chatId)

@@ -56,7 +56,7 @@ export const findOrCreateUser = async (chatId: ChatId) => {
 }
 
 export const middleware = async (ctx: MyContext, next) => {
-    const chatId = ctx.message.chat.id
+    const chatId = ctx.message?.chat?.id || ctx.callbackQuery?.message?.chat?.id
 
     if (!ctx.session.hasOwnProperty('room')) {
         await findOrCreateUser(chatId)
