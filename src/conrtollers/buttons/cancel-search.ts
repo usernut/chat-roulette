@@ -9,17 +9,22 @@ export class Button extends Base {
     permissions = []
 
     callback = async (ctx: MyContext) => {
-        const chatId = ctx.message.chat.id
+        try {
+            const chatId = ctx.message.chat.id
 
-        if (!queue.includes(chatId)) {
-            return ctx.reply(
-                ctx.i18n.t('user_not_in_search'),
-                keyboards.userMenu()
-            )
+            if (!queue.includes(chatId)) {
+                return ctx.reply(
+                    ctx.i18n.t('user_not_in_search'),
+                    keyboards.userMenu()
+                )
+            }
+
+            queue.removeChatId(chatId)
+
+            ctx.reply(ctx.i18n.t('search_canceled'), keyboards.userMenu())
+        } catch (message) {
+            await ctx.reply(ctx.i18n.t('error'))
+            console.log(`[error]: ${message}`)
         }
-
-        queue.removeChatId(chatId)
-
-        ctx.reply(ctx.i18n.t('search_canceled'), keyboards.userMenu())
     }
 }

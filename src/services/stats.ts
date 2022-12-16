@@ -8,12 +8,12 @@ export const updateStatsByRoom = async (room: Room) => {
             OR: [
                 {
                     user: {
-                        telegramId: room.users[0]
+                        id: room.users[0]
                     }
                 },
                 {
                     user: {
-                        telegramId: room.users[1]
+                        id: room.users[1]
                     }
                 }
             ]
@@ -31,6 +31,6 @@ export const updateStatsByRoom = async (room: Room) => {
 
 export const getStatsByChatId = async (chatId: ChatId) => {
     return await client.stats.findMany({
-        where: { user: { telegramId: chatId } }
+        where: { user: { id: chatId } }
     })
 }

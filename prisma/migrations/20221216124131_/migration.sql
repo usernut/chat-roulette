@@ -1,11 +1,8 @@
 -- CreateTable
 CREATE TABLE "users" (
-    "id" SERIAL NOT NULL,
-    "telegramId" INTEGER NOT NULL,
+    "id" BIGINT NOT NULL,
     "isBanned" BOOLEAN NOT NULL DEFAULT false,
-    "roleId" INTEGER,
-
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    "roleId" INTEGER
 );
 
 -- CreateTable
@@ -29,13 +26,13 @@ CREATE TABLE "stats" (
     "id" SERIAL NOT NULL,
     "total_messages" INTEGER NOT NULL DEFAULT 0,
     "total_companions" INTEGER NOT NULL DEFAULT 0,
-    "usersId" INTEGER NOT NULL,
+    "usersId" BIGINT NOT NULL,
 
     CONSTRAINT "stats_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_telegramId_key" ON "users"("telegramId");
+CREATE UNIQUE INDEX "users_id_key" ON "users"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "censorship_word_key" ON "censorship"("word");

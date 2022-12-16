@@ -8,12 +8,11 @@ datasource db {
 }
 
 model users {
-  id         Int     @id @default(autoincrement())
-  telegramId Int     @unique
-  isBanned   Boolean @default(false)
-  role       roles?  @relation(fields: [roleId], references: [id])
-  roleId     Int?
-  stats      stats[]
+  id       BigInt  @unique
+  isBanned Boolean @default(false)
+  role     roles?  @relation(fields: [roleId], references: [id])
+  roleId   Int?
+  stats    stats[]
 }
 
 model roles {
@@ -28,9 +27,9 @@ model censorship {
 }
 
 model stats {
-  id               Int   @id @default(autoincrement())
-  user             users @relation(fields: [usersId], references: [id])
-  total_messages   Int   @default(0)
-  total_companions Int   @default(0)
-  usersId          Int
+  id               Int    @id @default(autoincrement())
+  user             users  @relation(fields: [usersId], references: [id])
+  total_messages   Int    @default(0)
+  total_companions Int    @default(0)
+  usersId          BigInt
 }

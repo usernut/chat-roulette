@@ -8,13 +8,21 @@ export class Button extends Base {
     permissions = []
 
     callback = async (ctx: MyContext) => {
-        const chatId = ctx.message.chat.id
+        try {
+            const chatId = ctx.message.chat.id
 
-        const stats = await getStatsByChatId(chatId)
-        const [{ total_messages, total_companions }] = stats
+            const stats = await getStatsByChatId(chatId)
+            const [{ total_messages, total_companions }] = stats
 
-        ctx.reply(
-            ctx.i18n.t('user_own_stats', { total_messages, total_companions })
-        )
+            ctx.reply(
+                ctx.i18n.t('user_own_stats', {
+                    total_messages,
+                    total_companions
+                })
+            )
+        } catch (message) {
+            await ctx.reply(ctx.i18n.t('error'))
+            console.log(`[error]: ${message}`)
+        }
     }
 }

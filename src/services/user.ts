@@ -1,29 +1,30 @@
 import { client } from '../bot'
+import { MyContext } from '../interfaces'
 import { ChatId } from '../types'
 
 export const getUser = async (chatId: ChatId) => {
     return await client.users.findUnique({
-        where: { telegramId: chatId }
+        where: { id: chatId }
     })
 }
 
 export const banUser = async (chatId: ChatId) => {
     return await client.users.update({
-        where: { telegramId: chatId },
+        where: { id: chatId },
         data: { isBanned: true }
     })
 }
 
 export const unbanUser = async (chatId: ChatId) => {
     return await client.users.update({
-        where: { telegramId: chatId },
+        where: { id: chatId },
         data: { isBanned: false }
     })
 }
 
 export const getRole = async (chatId: ChatId) => {
     return await client.users.findUnique({
-        where: { telegramId: chatId },
+        where: { id: chatId },
         include: {
             role: true
         }
@@ -32,7 +33,7 @@ export const getRole = async (chatId: ChatId) => {
 
 export const getUserWithRoleAndStats = async (chatId: ChatId) => {
     return await client.users.findUnique({
-        where: { telegramId: chatId },
+        where: { id: chatId },
         include: {
             role: true,
             stats: true
@@ -44,12 +45,23 @@ export const findOrCreateUser = async (chatId: ChatId) => {
     const user = await getUser(chatId)
 
     if (!user) {
-        const { id } = await client.users.create({
+        await client.users.create({
             data: {
-                telegramId: chatId
+                id: chatId
             }
         })
 
-        await client.stats.create({ data: { usersId: id } })
+        await client.stats.create({ data: { usersId: chatId } })
     }
+}
+
+export const middleware = async (ctx: MyContext, next) => {
+    const chatId = ctx.message.chat.id
+
+    if (!ctx.session.hasOwnProperty('room')) {
+        await findOrCreateUser(chatId)
+        ctx.session.room = null
+    }
+
+    next()
 }

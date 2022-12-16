@@ -10,19 +10,24 @@ export class Action extends Base {
     permissions = ['ADMIN']
 
     callback = async (ctx: MyContext, params: { chatId: ChatId }) => {
-        const { chatId } = params
-        const user = await getUser(chatId)
+        try {
+            const { chatId } = params
+            const user = await getUser(chatId)
 
-        if (user?.isBanned) {
+            if (user?.isBanned) {
+                ctx.answerCbQuery()
+                ctx.reply(ctx.i18n.t('user_already_banned', { chatId }))
+                return
+            }
+
+            await banUser(chatId)
+
+            ctx.editMessageReplyMarkup(keyboards.unban(chatId).reply_markup)
+            ctx.reply(ctx.i18n.t('user_banned', { chatId }))
             ctx.answerCbQuery()
-            ctx.reply(ctx.i18n.t('user_already_banned', { chatId }))
-            return
+        } catch (message) {
+            await ctx.reply(ctx.i18n.t('error'))
+            console.log(`[error]: ${message}`)
         }
-
-        await banUser(chatId)
-
-        ctx.editMessageReplyMarkup(keyboards.unban(chatId).reply_markup)
-        ctx.reply(ctx.i18n.t('user_banned', { chatId }))
-        ctx.answerCbQuery()
     }
 }

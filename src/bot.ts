@@ -8,6 +8,9 @@ import { commands, buttons, listeners, actions } from './conrtollers'
 import { Rooms } from './services/Rooms'
 import { Queue } from './services/Queue'
 import { Censorship } from './services/censorship'
+import { middleware } from './services/user'
+// import { MyContext } from './interfaces'
+// import { findOrCreateUser, middleware } from './services/user'
 
 dotenv.config()
 
@@ -32,7 +35,10 @@ export const censor = new Censorship()
 
 censor.init()
 
-bot.use(localSession.middleware('session'), i18n.middleware())
+bot.use(localSession.middleware('session'))
+bot.use(middleware)
+bot.use(i18n.middleware())
+
 bot.use(commands, buttons, listeners, actions)
 
 bot.launch()

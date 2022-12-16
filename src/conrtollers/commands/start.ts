@@ -9,14 +9,11 @@ export class Command extends Base {
     permissions = []
 
     callback = async (ctx: MyContext) => {
-        const chatId = ctx.message.chat.id
-
-        if (ctx.session?.room) {
-            return ctx.reply(ctx.i18n.t('greeting'), keyboards.userMenu())
+        try {
+            ctx.reply(ctx.i18n.t('greeting'), keyboards.userMenu())
+        } catch (message) {
+            await ctx.reply(ctx.i18n.t('error'))
+            console.log(`[error]: ${message}`)
         }
-
-        await findOrCreateUser(chatId)
-
-        ctx.reply(ctx.i18n.t('greeting'), keyboards.userMenu())
     }
 }
