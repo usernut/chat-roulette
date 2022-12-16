@@ -1,0 +1,35 @@
+{
+  "name": "seva",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "rimraf ./sessions.json && ts-node src/bot",
+    "dev": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@esindger/telegraf-i18n": "^0.5.5",
+    "@prisma/client": "^4.7.1",
+    "dotenv": "^16.0.3",
+    "pg": "^8.8.0",
+    "rimraf": "^3.0.2",
+    "telegraf": "^4.11.2",
+    "telegraf-session-local": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.15",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1",
+    "prisma": "^4.7.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  }
+}

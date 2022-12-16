@@ -1,0 +1,11 @@
+{
+    "START": "/start",
+    "USER": "/user",
+    "FILTER": "/filter",
+    "FIND_COMPANION": "Найти собеседника",
+    "END_DIALOG": "Завершить диалог",
+    "CANCEL_SEARCH": "Отменить поиск",
+    "MY_STATS": "Моя статистика",
+    "BAN": { "text": "Забанить", "callback_data": "ban" },
+    "UNBAN": { "text": "Разбанить", "callback_data": "unban" }
+}

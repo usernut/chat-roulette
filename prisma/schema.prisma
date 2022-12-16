@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id         Int     @id @default(autoincrement())
+  telegramId Int     @unique
+  isBanned   Boolean @default(false)
+  role       roles?  @relation(fields: [roleId], references: [id])
+  roleId     Int?
+  stats      stats[]
+}
+
+model roles {
+  id   Int     @id @default(autoincrement())
+  role String
+  user users[]
+}
+
+model censorship {
+  id   Int    @id @default(autoincrement())
+  word String @unique
+}
+
+model stats {
+  id               Int   @id @default(autoincrement())
+  user             users @relation(fields: [usersId], references: [id])
+  total_messages   Int   @default(0)
+  total_companions Int   @default(0)
+  usersId          Int
+}
