@@ -1,16 +1,28 @@
 import { Context } from 'telegraf'
 import { I18nContext } from '@esindger/telegraf-i18n'
-import { Message, Update } from 'telegraf/typings/core/types/typegram'
-import { Users, RoomId } from '../types'
+import { Users, RoomId, ChatId, Middleware } from '../types'
 
-export interface Session {
-    room?: string
+export interface Handler {
+    triggers: string | string[]
+    middlewares: Middleware[]
+    callback: Middleware
 }
 
-export interface MyContext extends Context<Update> {
-    session?: Session
-    message: Update.New & Update.NonChannel & Message.TextMessage
-    i18n?: I18nContext
+export interface ChatIdParams {
+    chatId: ChatId
+}
+
+export interface Action<T> {
+    params: T
+}
+
+export interface SessionData {
+    checked: boolean
+}
+
+export interface IContext extends Context {
+    session: SessionData
+    i18n: I18nContext
 }
 
 export interface Room {

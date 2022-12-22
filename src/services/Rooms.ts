@@ -1,49 +1,54 @@
-import { MyContext, Room } from '../interfaces'
-import { RoomId, Users } from '../types'
 import * as keyboards from '../keyboards'
-import { bot, localSession } from '../bot'
+import { IContext, Room } from '../interfaces'
+import { ChatId, RoomId, Users } from '../types'
 
-export class Rooms {
+class Rooms {
     rooms: Room[] = []
 
-    create = async (ctx: MyContext, users: Users) => {
+    create = (ctx: IContext, users: Users) => {
         const id = users.join(':')
-        const room = {
-            id,
-            users,
-            messageCount: 0
-        }
+        const room = { id, users, messageCount: 0 }
 
         this.rooms.push(room)
 
-        await this.notifyUsersRoomCreated(ctx, users, id)
+        this.notifyUsersRoomCreated(ctx, users)
     }
 
-    notifyUsersRoomCreated = async (
-        ctx: MyContext,
-        users: Users,
-        roomId: RoomId
-    ) => {
-        ctx.session.room = roomId
-
-        users.forEach(async (userId) => {
-            bot.telegram.sendMessage(
+    notifyUsersRoomCreated = (ctx: IContext, users: Users) => {
+        users.forEach((userId) => {
+            ctx.telegram.sendMessage(
                 userId,
                 ctx.i18n.t('companion_found'),
                 keyboards.exitDialog()
             )
-
-            await localSession.saveSession(`${userId}:${userId}`, {
-                room: roomId
-            })
         })
     }
 
-    findById = (_id: string) => {
+    findById = (_id: RoomId) => {
         return this.rooms.find(({ id }) => id === _id)
     }
 
-    removeById = (_id: string) => {
-        this.rooms.filter(({ id }) => id !== _id)
+    removeById = (_id: RoomId) => {
+        this.rooms = this.rooms.filter(({ id }) => id !== _id)
+    }
+
+    incrementMessageCountById = (id: RoomId, n = 1) => {
+        const room = this.findById(id)
+        room.messageCount += n
+    }
+
+    getRoomByChatId = (chatId: ChatId) => {
+        const room = this.rooms.find((r) => r.users.includes(chatId))
+
+        if (!room) {
+            return null
+        }
+
+        const companionId =
+            room.users[0] === chatId ? room.users[1] : room.users[0]
+
+        return { ...room, companionId }
     }
 }
+
+export default new Rooms()

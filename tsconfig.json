@@ -1,27 +1,18 @@
 {
-    // "compilerOptions": {
-    //     "target": "ES2020",
-    //     "module": "commonjs",
-    //     "removeComments": true,
-    //     "allowSyntheticDefaultImports": true,
-    //     "sourceMap": true,
-    //     "outDir": "./dist",
-    //     "esModuleInterop": true,
-    //     "strict": true,
-    //     "resolveJsonModule": true,
-    //     "skipLibCheck": true,
-    //     "noImplicitAny": true,
-    //     "strictNullChecks": true,
-    //     "forceConsistentCasingInFileNames": true
-    // },
     "compilerOptions": {
-        "resolveJsonModule": true,
-        "module": "commonjs",
-        "declaration": false,
-        "sourceMap": true,
         "target": "ES2020",
-        "outDir": "dist",
-        "esModuleInterop": true
+        "module": "commonjs",
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "esModuleInterop": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "noImplicitAny": true,
+        "strictNullChecks": false, //Auto: true
+        "forceConsistentCasingInFileNames": true
     },
     "include": ["src/**/*"]
 }

@@ -1,27 +1,23 @@
-import { client } from '../bot'
+import prisma from './client'
 
-export class Censorship {
+class Censorship {
     words: string[] = []
 
     async init() {
-        const words = await client.censorship.findMany()
+        const words = await prisma.censorship.findMany()
         this.words = words.map(({ word }) => word)
     }
 
     async add(word: string) {
-        await client.censorship.create({
-            data: {
-                word
-            }
+        await prisma.censorship.create({
+            data: { word }
         })
         this.words.push(word)
     }
 
     async remove(word: string) {
-        await client.censorship.delete({
-            where: {
-                word
-            }
+        await prisma.censorship.delete({
+            where: { word }
         })
         this.words = this.words.filter((w) => w !== word)
     }
@@ -30,3 +26,9 @@ export class Censorship {
         return this.words.includes(word)
     }
 }
+
+const censor = new Censorship()
+
+censor.init()
+
+export default censor

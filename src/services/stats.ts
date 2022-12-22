@@ -1,28 +1,19 @@
-import { client } from '../bot'
+import prisma from './client'
 import { Room } from '../interfaces'
 import { ChatId } from '../types'
 
 export const updateStatsByRoom = async (room: Room) => {
-    return await client.stats.updateMany({
+    return await prisma.stats.updateMany({
         where: {
-            OR: [
-                {
-                    user: {
-                        id: room.users[0]
-                    }
-                },
-                {
-                    user: {
-                        id: room.users[1]
-                    }
-                }
-            ]
+            userId: {
+                in: room.users
+            }
         },
         data: {
-            total_companions: {
+            totalCompanions: {
                 increment: 1
             },
-            total_messages: {
+            totalMessages: {
                 increment: room.messageCount
             }
         }
@@ -30,7 +21,7 @@ export const updateStatsByRoom = async (room: Room) => {
 }
 
 export const getStatsByChatId = async (chatId: ChatId) => {
-    return await client.stats.findMany({
-        where: { user: { id: chatId } }
+    return await prisma.stats.findMany({
+        where: { userId: chatId }
     })
 }

@@ -29,7 +29,7 @@ export const ban = (chatId: ChatId) => ({
                 {
                     text: buttons.BAN.text,
                     callback_data: JSON.stringify({
-                        callback_data: buttons.BAN.callback_data,
+                        action: buttons.BAN.callback_data,
                         params: { chatId }
                     })
                 }
@@ -45,7 +45,7 @@ export const unban = (chatId: ChatId) => ({
                 {
                     text: buttons.UNBAN.text,
                     callback_data: JSON.stringify({
-                        callback_data: buttons.UNBAN.callback_data,
+                        action: buttons.UNBAN.callback_data,
                         params: { chatId }
                     })
                 }

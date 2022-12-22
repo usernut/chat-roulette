@@ -4,12 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rimraf ./sessions.json && ts-node src/bot",
-    "dev": "nodemon"
+    "start": "npm run build && node dist/bot",
+    "dev": "rimraf ./sessions.json && npx nodemon",
+    "build": "rimraf ./dist && npx tsc",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:seed": "npx prisma db seed",
+    "prisma:format": "npx prisma format",
+    "prisma:studio": "npx prisma studio",
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@esindger/telegraf-i18n": "^0.5.5",
     "@prisma/client": "^4.7.1",

@@ -1,25 +1,13 @@
 import { ChatId } from '../types'
 
-export class Queue {
-    queue: number[] = []
-
-    pop() {
-        return this.queue.pop()
-    }
-
-    includes(chatId: ChatId) {
-        return this.queue.includes(chatId)
-    }
-
-    length() {
-        return this.queue.length
-    }
-
-    push(chatId: ChatId) {
-        this.queue.push(chatId)
-    }
-
+class Queue extends Array<ChatId> {
     removeChatId(chatId: ChatId) {
-        this.queue = this.queue.filter((n) => n !== chatId)
+        const index = this.indexOf(chatId)
+
+        if (index !== -1) {
+            this.splice(index, 1)
+        }
     }
 }
+
+export default new Queue()

@@ -8,11 +8,12 @@ datasource db {
 }
 
 model users {
-  id       BigInt  @unique
-  isBanned Boolean @default(false)
-  role     roles?  @relation(fields: [roleId], references: [id])
-  roleId   Int?
-  stats    stats[]
+  id        BigInt   @unique
+  isBanned  Boolean  @default(false)
+  role      roles?   @relation(fields: [roleId], references: [id])
+  roleId    Int?
+  stats     stats?
+  createdAt DateTime @default(now())
 }
 
 model roles {
@@ -28,8 +29,8 @@ model censorship {
 
 model stats {
   id               Int    @id @default(autoincrement())
-  user             users  @relation(fields: [usersId], references: [id])
-  total_messages   Int    @default(0)
-  total_companions Int    @default(0)
-  usersId          BigInt
+  user             users  @relation(fields: [userId], references: [id])
+  totalMessages   Int    @default(0)
+  totalCompanions Int    @default(0)
+  userId           BigInt @unique
 }
